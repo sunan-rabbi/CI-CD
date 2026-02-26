@@ -14,7 +14,7 @@ async function bootstrap() {
 
       console.log(`
         🚀 Server ready at http://localhost:${address.port}
-        🔧 Environment: Production
+        🔧 Environment: Productionn
         📅 Started: ${new Date().toISOString()}
       `);
     });
