@@ -1,0 +1,34 @@
+name: Deploy to EC2
+
+on:
+  workflow_run:
+    workflows: ["EC2 Connectivity Check"]
+    types:
+      - completed
+    branches: [master]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    steps:
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/key
+          chmod 600 ~/.ssh/key
+          ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy Application
+        run: |
+          ssh -i ~/.ssh/key ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+            cd  home/CI-CD
+            git pull
+            npm run build
+            pm2 restart server
+          EOF
+
+      - name: Cleanup
+        if: always()
+        run: rm -f ~/.ssh/key
