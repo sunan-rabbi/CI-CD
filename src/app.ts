@@ -9,7 +9,7 @@ app.get('/', async (req: Request, res: Response) => {
 
     res.status(200).json({
       message: 'Hello from Custom Server - Sunan',
-      status: 'HEALTHY',
+      status: 'HEALTHYYYY',
       timestamp: new Date().toISOString(),
       uptime: process.uptime(),
     });
