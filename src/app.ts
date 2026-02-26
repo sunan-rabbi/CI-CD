@@ -8,7 +8,7 @@ app.get('/', async (req: Request, res: Response) => {
 
 
     res.status(200).json({
-      message: 'Hello from Custom Server: CI-CD',
+      message: 'Hello from Custom Server: CI-CD CI-CD',
       status: 'HEALTHY',
       timestamp: new Date().toISOString(),
       uptime: process.uptime(),
