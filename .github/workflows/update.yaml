@@ -23,7 +23,10 @@ jobs:
       - name: Deploy Application
         run: |
           ssh -i ~/.ssh/key ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
-            cd  home/CI-CD
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            
+            cd /home/CI-CD
             git pull
             npm run build
             pm2 restart server
